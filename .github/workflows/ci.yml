@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pure-tests-and-bridge:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Run pure pathfinding and workbook tests
+        shell: powershell
+        run: .\scripts\test.ps1
+      - name: Run maintenance-ledger tests
+        shell: powershell
+        run: .\tests\run-maintenance-ledger-tests.ps1
+      - name: Build MCP stdio bridge
+        shell: powershell
+        run: dotnet build .\bridge\RevitMcpBridge\RevitMcpBridge.csproj -c Release --nologo
+      - name: Check repository hygiene
+        shell: powershell
+        run: |
+          $bad = git ls-files | Select-String -Pattern '\.(rvt|rfa|rte|dwg|ifc|nwc|nwd)$'
+          if ($bad) { $bad; throw 'Binary BIM/CAD project files must not be committed.' }
+
+  # Autodesk does not redistribute RevitAPI assemblies through this repository.
+  # The complete add-in Release build is a required local/release-runner gate using scripts/build.ps1.

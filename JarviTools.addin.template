@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>OpenRevit Tools</Name>
+    <Assembly>__ASSEMBLY_PATH__</Assembly>
+    <AddInId>8F3E9C2A-4B5D-4E6F-9A7B-1C2D3E4F5A6B</AddInId>
+    <FullClassName>JarviTools.Application</FullClassName>
+    <VendorId>ORVT</VendorId>
+    <VendorDescription>OpenRevit Tools - open-source Revit productivity toolkit</VendorDescription>
+    <Description>Revit 生产力工具集，整合模型检查、数据导出、参数管理与 AI/MCP 协作。</Description>
+  </AddIn>
+</RevitAddIns>

@@ -1,0 +1,42 @@
+# Build output
+bin/
+obj/
+dist/
+artifacts/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+
+# NuGet
+packages/
+*.nupkg
+
+# Revit files (binary, may contain client project data)
+*.rvt
+*.rfa
+*.rte
+*.rft
+*.dwg
+*.dxf
+*.ifc
+*.nwc
+*.nwd
+
+# Revit auto-backups
+*.0001
+*.0002
+*.0003
+
+# Logs / temp
+*.log
+*.tmp
+*.bak
+
+# OS / IDE
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/

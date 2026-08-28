@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8F3E9C2A-4B5D-4E6F-9A7B-1C2D3E4F5A6B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>JarviTools</RootNamespace>
+    <AssemblyName>JarviTools</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <RevitVersion Condition="'$(RevitVersion)' == ''">2024</RevitVersion>
+    <RevitInstallDir Condition="'$(RevitInstallDir)' == ''">$(ProgramW6432)\Autodesk\Revit $(RevitVersion)</RevitInstallDir>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <PlatformTarget>x64</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x64</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="RevitAPI">
+      <HintPath>$(RevitInstallDir)\RevitAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="RevitAPIUI">
+      <HintPath>$(RevitInstallDir)\RevitAPIUI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 核心 -->
+    <Compile Include="src\Application.cs" />
+    <Compile Include="src\Properties\AssemblyInfo.cs" />
+    <!-- Core 层 -->
+    <Compile Include="src\Core\Constants.cs" />
+    <Compile Include="src\Core\ElementData.cs" />
+    <Compile Include="src\Core\ElementDataHelper.cs" />
+    <Compile Include="src\Core\ExcelHelper.cs" />
+    <Compile Include="src\Core\TransactionSafety.cs" />
+    <!-- Commands 层 -->
+    <Compile Include="src\Commands\MatchQuantityParametersCommand.cs" />
+    <Compile Include="src\Commands\FilterUnmatchedElementsCommand.cs" />
+    <Compile Include="src\Commands\ExportVisibleElementsCommand.cs" />
+    <Compile Include="src\Commands\ExportAllSchedulesCommand.cs" />
+    <Compile Include="src\Commands\ParameterManagerCommand.cs" />
+    <!-- 机电检查面板 -->
+    <Compile Include="src\Commands\Common\JsonSettingsStore.cs" />
+    <Compile Include="src\Commands\Common\GeometryUtil.cs" />
+    <Compile Include="src\Commands\EquipmentSection\SectionSettings.cs" />
+    <Compile Include="src\Commands\EquipmentSection\SectionSettingsForm.cs" />
+    <Compile Include="src\Commands\EquipmentSection\EquipmentSectionCommand.cs" />
+    <Compile Include="src\Commands\EquipmentSection\Equipment3DSettings.cs" />
+    <Compile Include="src\Commands\EquipmentSection\Equipment3DSettingsForm.cs" />
+    <Compile Include="src\Commands\EquipmentSection\Equipment3DViewCommand.cs" />
+    <Compile Include="src\Commands\Clearance\ClearanceSettings.cs" />
+    <Compile Include="src\Commands\Clearance\ClearanceSettingsForm.cs" />
+    <Compile Include="src\Commands\Clearance\GridLocator.cs" />
+    <Compile Include="src\Commands\Clearance\ProgressForm.cs" />
+    <Compile Include="src\Commands\Clearance\ClearanceCalculator.cs" />
+    <Compile Include="src\Commands\Clearance\ClearanceResultForm.cs" />
+    <Compile Include="src\Commands\Clearance\ClearanceAnalysisCommand.cs" />
+    <Compile Include="src\Commands\Plenum\PlenumModels.cs" />
+    <Compile Include="src\Commands\Plenum\PlenumCellSolidFactory.cs" />
+    <Compile Include="src\Commands\Plenum\PlenumRegionMerger.cs" />
+    <Compile Include="src\Commands\Plenum\PlenumProfileClassifier.cs" />
+    <Compile Include="src\Commands\Plenum\PlenumAnalysisService.cs" />
+    <Compile Include="src\Commands\Plenum\PlenumVisualizationService.cs" />
+    <Compile Include="src\Commands\Plenum\PlenumSpaceFieldCommand.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceModels.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceLinkScopePolicy.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceLinkScopeService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceWallAlternativePolicy.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceWallObstacleCollector.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceManagedViewService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceWallAlternativeVisualizationService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceHandReachModels.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceHandReachMath.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceHandReachOpeningPolicy.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceHandReachAnalysisService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceHandReachVisualizationService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenancePipeExemptionPolicy.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceCandidateAudit.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceSharedCeilingEntryPolicy.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceEvidenceSnapshotService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceDocumentChangeTracker.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenancePathfinder.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceLadderFloorPolicy.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceGeometryService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceAnalysisService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceParameterService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceLedgerCsv.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceLedgerConfigurationService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceLedgerDestination.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceHandReachLedgerService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceHandReachLegacyMigrationService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceLedgerSyncService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceVisualizationService.cs" />
+    <Compile Include="src\Commands\MaintenanceReachability\MaintenanceReachabilityCommand.cs" />
+    <!-- MCP 层: Claude Desktop ↔ Revit 桥 -->
+    <Compile Include="src\Mcp\McpHost.cs" />
+    <Compile Include="src\Mcp\Async\RevitExternalEventHandler.cs" />
+    <Compile Include="src\Mcp\Server\HttpServer.cs" />
+    <Compile Include="src\Mcp\Server\McpResourceLimits.cs" />
+    <Compile Include="src\Mcp\Server\McpRequestBodyReader.cs" />
+    <Compile Include="src\Mcp\Server\McpSessionToken.cs" />
+    <Compile Include="src\Mcp\Server\Logger.cs" />
+    <Compile Include="src\Mcp\Server\ToolRegistry.cs" />
+    <Compile Include="src\Mcp\Tools\IRevitTool.cs" />
+    <Compile Include="src\Mcp\Tools\PaginationOptions.cs" />
+    <Compile Include="src\Mcp\Tools\GetModelInfoTool.cs" />
+    <Compile Include="src\Mcp\Tools\ListElementsTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetElementParametersTool.cs" />
+    <Compile Include="src\Mcp\Tools\ListSheetsAndViewsTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetWarningsSummaryTool.cs" />
+    <Compile Include="src\Mcp\Tools\SetElementParameterTool.cs" />
+    <Compile Include="src\Mcp\Tools\SetParametersBatchTool.cs" />
+    <Compile Include="src\Mcp\Tools\CreateLevelTool.cs" />
+    <Compile Include="src\Mcp\Tools\CreateWallTool.cs" />
+    <Compile Include="src\Mcp\Tools\CheckDoorClearWidthsTool.cs" />
+    <!-- JarviTools 业务命令的 MCP 包装 -->
+    <Compile Include="src\Mcp\Tools\MatchQuantityParametersTool.cs" />
+    <Compile Include="src\Mcp\Tools\FilterUnmatchedElementsTool.cs" />
+    <Compile Include="src\Mcp\Tools\ExportVisibleElementsTool.cs" />
+    <Compile Include="src\Mcp\Tools\ExportAllSchedulesTool.cs" />
+    <Compile Include="src\Mcp\Tools\ParameterManagerStatsTool.cs" />
+    <!-- Phase 4: 元素深度查询（只读） -->
+    <Compile Include="src\Mcp\Tools\CountElementsByCategoryTool.cs" />
+    <Compile Include="src\Mcp\Tools\FindElementsByParamValueTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetFamilyListTool.cs" />
+    <Compile Include="src\Mcp\Tools\FindUnusedFamiliesTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetRoomFinishesTool.cs" />
+    <!-- Phase 5: 选择 / 隔离（UI 操作） -->
+    <Compile Include="src\Mcp\Tools\SelectElementsByIdsTool.cs" />
+    <Compile Include="src\Mcp\Tools\SelectByCategoryTool.cs" />
+    <Compile Include="src\Mcp\Tools\IsolateInViewTool.cs" />
+    <Compile Include="src\Mcp\Tools\HideInViewTool.cs" />
+    <Compile Include="src\Mcp\Tools\UnhideAllTool.cs" />
+    <!-- Phase 6: Sheet / View 分析（只读） -->
+    <Compile Include="src\Mcp\Tools\GetViewsOnSheetsTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetUnplacedViewsTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetViewFiltersTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetViewTemplateInfoTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetSheetRevisionsTool.cs" />
+    <!-- Phase 7: 模型健康 / Audit（只读） -->
+    <Compile Include="src\Mcp\Tools\GetModelHealthTool.cs" />
+    <Compile Include="src\Mcp\Tools\FindUnusedTypesTool.cs" />
+    <Compile Include="src\Mcp\Tools\CountGroupsAndInstancesTool.cs" />
+    <Compile Include="src\Mcp\Tools\FindUnhostedElementsTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetLinkStatusTool.cs" />
+    <!-- Phase 8: 写入扩展（Transaction 包裹） -->
+    <Compile Include="src\Mcp\Tools\CreateFloorTool.cs" />
+    <Compile Include="src\Mcp\Tools\CreateColumnTool.cs" />
+    <Compile Include="src\Mcp\Tools\DeleteElementTool.cs" />
+    <Compile Include="src\Mcp\Tools\MoveElementTool.cs" />
+    <!-- Phase 9: 元素深度查询 & UI 扩展 -->
+    <Compile Include="src\Mcp\Tools\GetFamilySizesMbTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetFamilySizesTopNTool.cs" />
+    <Compile Include="src\Mcp\Tools\FindDuplicateTypesTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetRoomBoundariesTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetElementGeometryTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetPhaseInfoTool.cs" />
+    <Compile Include="src\Mcp\Tools\ZoomToElementTool.cs" />
+    <!-- Phase 10: 视图/图纸操作（写入） -->
+    <Compile Include="src\Mcp\Tools\DuplicateViewTool.cs" />
+    <Compile Include="src\Mcp\Tools\ApplyViewTemplateTool.cs" />
+    <Compile Include="src\Mcp\Tools\CreateSheetTool.cs" />
+    <Compile Include="src\Mcp\Tools\PlaceViewOnSheetTool.cs" />
+    <Compile Include="src\Mcp\Tools\AddTextNoteTool.cs" />
+    <!-- Phase 11: 视图设置（写入） -->
+    <Compile Include="src\Mcp\Tools\SetViewScaleTool.cs" />
+    <Compile Include="src\Mcp\Tools\SetViewDetailLevelTool.cs" />
+    <Compile Include="src\Mcp\Tools\SetViewPhaseTool.cs" />
+    <Compile Include="src\Mcp\Tools\CropViewToElementsTool.cs" />
+    <!-- Phase 12: 视口操作（写入） -->
+    <Compile Include="src\Mcp\Tools\RemoveViewFromSheetTool.cs" />
+    <Compile Include="src\Mcp\Tools\MoveViewportTool.cs" />
+    <Compile Include="src\Mcp\Tools\AlignViewportsTool.cs" />
+    <!-- Phase 13: 高级视图创建（写入） -->
+    <Compile Include="src\Mcp\Tools\Create3DViewTool.cs" />
+    <Compile Include="src\Mcp\Tools\CreatePlanViewTool.cs" />
+    <Compile Include="src\Mcp\Tools\CreateSectionTool.cs" />
+    <!-- Phase 14: 分级聚合统计（只读） -->
+    <Compile Include="src\Mcp\Tools\GetWallsSummaryTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetDoorsSummaryTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetWindowsSummaryTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetFloorsSummaryTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetRoomsSummaryTool.cs" />
+    <!-- Phase 15: CSV 导出 -->
+    <Compile Include="src\Mcp\Tools\ExportQuantitiesToCsvTool.cs" />
+    <Compile Include="src\Mcp\Tools\CsvExportSafety.cs" />
+    <Compile Include="src\Mcp\Tools\ExportRoomsToCsvTool.cs" />
+    <Compile Include="src\Mcp\Tools\ExportElementsWithParamsToCsvTool.cs" />
+    <!-- Phase 16: 缺漏分析（只读） -->
+    <Compile Include="src\Mcp\Tools\FindElementsMissingParamTool.cs" />
+    <Compile Include="src\Mcp\Tools\FindUntaggedRoomsTool.cs" />
+    <Compile Include="src\Mcp\Tools\FindUntaggedDoorsTool.cs" />
+    <Compile Include="src\Mcp\Tools\FindRoomsWithMissingFinishesTool.cs" />
+    <!-- Phase 17: MEP 查询（只读） -->
+    <Compile Include="src\Mcp\Tools\SolidHelper.cs" />
+    <Compile Include="src\Mcp\Tools\ListMepElementsTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetDuctParametersTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetPipeParametersTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetElementConnectivityTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetMepSystemInfoTool.cs" />
+    <!-- Phase 18: 碰撞检测（只读） -->
+    <Compile Include="src\Mcp\Tools\RunClashDetectionTool.cs" />
+    <Compile Include="src\Mcp\Tools\GetClashReportTool.cs" />
+    <Compile Include="src\Mcp\Tools\HighlightClashTool.cs" />
+    <!-- Phase 19: 通用执行（万能入口） -->
+    <Compile Include="src\Mcp\Tools\RunCommandTool.cs" />
+    <Compile Include="src\Mcp\Tools\ExecuteCSharpTool.cs" />
+    <Compile Include="src\Mcp\Tools\PlenumAnalysisTools.cs" />
+    <Compile Include="src\Mcp\Tools\MaintenanceLedgerSyncTool.cs" />
+    <Compile Include="src\Mcp\Tools\MaintenanceCandidateJson.cs" />
+    <Compile Include="src\Mcp\Tools\MaintenanceReachabilityTools.cs" />
+    <Compile Include="src\Mcp\Tools\MaintenanceWallAlternativeTools.cs" />
+    <Compile Include="src\Mcp\Tools\MaintenanceHandReachTools.cs" />
+    <Compile Include="src\Mcp\Tools\MaintenanceHandReachVisualizationTools.cs" />
+    <Compile Include="src\Mcp\Units\UnitParser.cs" />
+    <Compile Include="src\Mcp\Commands\StartServerCommand.cs" />
+    <Compile Include="src\Mcp\Commands\StopServerCommand.cs" />
+    <Compile Include="src\Mcp\Commands\StatusCommand.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="JarviTools.addin.template" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- 图标：保留子目录结构复制到 Resources\icons\ -->
+    <Content Include="Resources\icons\match_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\match_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\filter_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\filter_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\export_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\export_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\schedule_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\schedule_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\param_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\param_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\param_manager_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\param_manager_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\mcp_start_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\mcp_start_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\mcp_stop_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\mcp_stop_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\mcp_status_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\mcp_status_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\section_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\section_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\clearance_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\clearance_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\plenum_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\plenum_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\maintenance_reachability_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\maintenance_reachability_icon.png</Link>
+    </Content>
+    <Content Include="Resources\icons\equip3d_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\icons\equip3d_icon.png</Link>
+    </Content>
+    <!-- 共享参数文件：复制到 Resources\ -->
+    <Content Include="Resources\工程量统计共享参数.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\工程量统计共享参数.txt</Link>
+    </Content>
+    <Content Include="Resources\OpenRevit维修可达共享参数.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Resources\OpenRevit维修可达共享参数.txt</Link>
+    </Content>
+  </ItemGroup>
+  <Target Name="ValidateRevitApiPath" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(RevitInstallDir)\RevitAPI.dll')"
+           Text="RevitAPI.dll was not found in '$(RevitInstallDir)'. Run scripts\build.ps1 or pass /p:RevitInstallDir=&quot;C:\Path\To\Revit 2024&quot;." />
+    <Error Condition="!Exists('$(RevitInstallDir)\RevitAPIUI.dll')"
+           Text="RevitAPIUI.dll was not found in '$(RevitInstallDir)'. Run scripts\build.ps1 or pass /p:RevitInstallDir=&quot;C:\Path\To\Revit 2024&quot;." />
+  </Target>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
